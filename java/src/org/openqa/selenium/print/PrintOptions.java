@@ -46,6 +46,11 @@ public class PrintOptions {
   private PageSize pageSize = new PageSize();
   private PageMargin pageMargin = new PageMargin();
   private String[] pageRanges;
+  private Boolean displayHeaderFooter = null;
+  private String headerTemplate = null;
+  private String footerTemplate = null;
+
+
 
   public Orientation getOrientation() {
     return this.orientation;
@@ -102,6 +107,23 @@ public class PrintOptions {
     this.pageSize = Require.nonNull("pageSize", pageSize);
   }
 
+  public void setDisplayHeaderFooter(Boolean displayHeaderFooter) {
+    this.displayHeaderFooter = displayHeaderFooter;
+  }
+  public Boolean getDisplayHeaderFooter() { return this.displayHeaderFooter; }
+
+  public void setHeaderTemplate(String headerTemplate) {
+    this.headerTemplate = headerTemplate;
+  }
+
+  public String getHeaderTemplate() { return this.headerTemplate; }
+
+  public void setFooterTemplate(String footerTemplate) {
+    this.footerTemplate = footerTemplate;
+  }
+
+  public String getFooterTemplate() { return this.footerTemplate; }
+
   public void setPageMargin(PageMargin margin) {
     this.pageMargin = Require.nonNull("margin", margin);
   }
@@ -114,8 +136,9 @@ public class PrintOptions {
     return this.pageMargin;
   }
 
+
   public Map<String, Object> toMap() {
-    final Map<String, Object> options = new HashMap<>(7);
+    final Map<String, Object> options = new HashMap<>(10);
     options.put("page", getPageSize());
     options.put("orientation", getOrientation().toString());
     options.put("scale", getScale());
@@ -126,6 +149,15 @@ public class PrintOptions {
       options.put("pageRanges", effectivePageRanges);
     }
     options.put("margin", getPageMargin());
+    if(getDisplayHeaderFooter() != null) {
+      options.put("displayHeaderFooter", getDisplayHeaderFooter());
+    }
+    if(getHeaderTemplate() != null) {
+      options.put("headerTemplate", getHeaderTemplate());
+    }
+    if(getFooterTemplate() != null) {
+      options.put("footerTemplate", getFooterTemplate());
+    }
 
     return options;
   }
